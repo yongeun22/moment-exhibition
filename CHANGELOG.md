@@ -24,10 +24,14 @@ All notable changes to this project will be documented in this file.
 - Generalized administrator examples from project-specific values to `admin` and `/admin`.
 - Made admin login rate limiting thread-safe for the local threaded server.
 - Preserved the original project prompt under `docs/original-specification.md`.
-- Split the mobile header into a dedicated logo row and a 44px-high control row to prevent navigation collisions on narrow screens.
+- Simplified the responsive header to a single row with the MoMent logo centered between the remaining controls.
 - Stabilized randomized photo order for the browser session and converted lightbox information controls to real tabs.
-- Made background audio start only after the visitor explicitly uses the audio control.
 - Removed the frequently rewritten gallery grid from live-region announcements and added a skip link and concise status updates.
+
+### Removed
+
+- Removed the public history dialog and navigation control.
+- Removed background audio, its navigation control, bundled media asset, and static export path.
 
 ### Security
 
@@ -49,11 +53,11 @@ Highlights:
 
 - Local Python admin app for managing photos and metadata.
 - Static export for Cloudflare Pages.
-- Minimal public exhibition UI with photo interactions, lightbox, background audio, visit counter, latest-update marker, and trace guestbook.
+- Minimal public exhibition UI with photo interactions, lightbox, visit counter, latest-update marker, and trace guestbook.
 - Tests and CI covering the core local app logic.
 
 Maintainer confirmation required before release:
 
 - Verify the public demo URL and screenshots.
-- Confirm reuse permissions for photographs, music, logos, QR images, and exhibition copy.
+- Confirm reuse permissions for photographs, logos, QR images, and exhibition copy.
 - Confirm GitHub repository About fields, topics, and release notes in the web UI.

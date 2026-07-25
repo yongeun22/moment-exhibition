@@ -15,7 +15,6 @@ def write_static_fixture(static_dir: Path) -> None:
     (static_dir / "css").mkdir(parents=True)
     (static_dir / "js").mkdir()
     (static_dir / "js" / "modules").mkdir()
-    (static_dir / "audio").mkdir()
     (static_dir / "index.html").write_text(
         '<html><head>{{SITE_META_TAGS}}<link href="/static/css/site.css?v={{SITE_CSS_VERSION}}"></head>'
         '<body><script src="/static/js/exhibition.js?v={{EXHIBITION_JS_VERSION}}"></script></body></html>',
@@ -34,12 +33,21 @@ def write_image(path: Path) -> None:
 
 
 class PublicSiteTests(unittest.TestCase):
-    def test_mobile_navigation_keeps_brand_on_its_own_row(self):
+    def test_mobile_navigation_keeps_brand_and_controls_on_one_row(self):
         root = Path(__file__).resolve().parents[1]
         site_css = (root / "static" / "css" / "site.css").read_text(encoding="utf-8")
+        index_html = (root / "static" / "index.html").read_text(encoding="utf-8")
+        exhibition_js = (root / "static" / "js" / "exhibition.js").read_text(encoding="utf-8")
 
-        self.assertIn('"brand brand"\n      "links actions"', site_css)
+        self.assertIn("grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);", site_css)
+        self.assertNotIn('"brand brand"\n      "links actions"', site_css)
         self.assertIn("min-height: 2.75rem", site_css)
+        self.assertNotIn('id="historyTrigger"', index_html)
+        self.assertNotIn('id="historyOverlay"', index_html)
+        self.assertNotIn('id="backgroundAudio"', index_html)
+        self.assertNotIn('id="audioToggle"', index_html)
+        self.assertNotIn("historyDialog", exhibition_js)
+        self.assertNotIn("toggleBackgroundAudio", exhibition_js)
 
     def test_public_guestbook_uses_integrated_list_without_type_filters(self):
         root = Path(__file__).resolve().parents[1]

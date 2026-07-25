@@ -123,7 +123,6 @@ def export_static_site(
 
     (output_dir / "static" / "css").mkdir(parents=True, exist_ok=True)
     (output_dir / "static" / "js").mkdir(parents=True, exist_ok=True)
-    (output_dir / "static" / "audio").mkdir(parents=True, exist_ok=True)
     (output_dir / "static" / "og").mkdir(parents=True, exist_ok=True)
     (output_dir / "static" / "qr").mkdir(parents=True, exist_ok=True)
     (output_dir / "static" / "icons").mkdir(parents=True, exist_ok=True)
@@ -138,7 +137,6 @@ def export_static_site(
     shutil.copy2(static_dir / "404.html", output_dir / "404.html")
     shutil.copy2(static_dir / "css" / "site.css", output_dir / "static" / "css" / "site.css")
     _copy_public_javascript(static_dir, output_dir)
-    _copy_tree(static_dir / "audio", output_dir / "static" / "audio")
     _copy_tree(static_dir / "og", output_dir / "static" / "og")
     _copy_tree(static_dir / "qr", output_dir / "static" / "qr")
     _copy_tree(static_dir / "icons", output_dir / "static" / "icons")
@@ -182,9 +180,6 @@ def export_static_site(
             "",
             "/static/js/*",
             "  Cache-Control: public, max-age=0, must-revalidate",
-            "",
-            "/static/audio/*",
-            "  Cache-Control: public, max-age=31536000, immutable",
             "",
             "/static/og/*",
             "  Cache-Control: public, max-age=31536000, immutable",

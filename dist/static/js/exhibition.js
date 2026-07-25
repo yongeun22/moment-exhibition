@@ -45,10 +45,6 @@ const lightboxClose = document.getElementById("lightboxClose");
 const lightboxPrevious = document.getElementById("lightboxPrevious");
 const lightboxNext = document.getElementById("lightboxNext");
 const lightboxPosition = document.getElementById("lightboxPosition");
-const historyTrigger = document.getElementById("historyTrigger");
-const historyOverlay = document.getElementById("historyOverlay");
-const historyPanel = document.getElementById("historyPanel");
-const historyClose = document.getElementById("historyClose");
 const contactTrigger = document.getElementById("contactTrigger");
 const contactOverlay = document.getElementById("contactOverlay");
 const contactPanel = document.getElementById("contactPanel");
@@ -79,13 +75,8 @@ const mapPlaceList = document.getElementById("mapPlaceList");
 const galleryStatus = document.getElementById("galleryStatus");
 const visitorCount = document.getElementById("visitorCount");
 const visitorSeparator = document.querySelector(".site-visitor-separator");
-const backgroundAudio = document.getElementById("backgroundAudio");
-const audioToggle = document.getElementById("audioToggle");
 const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
-let audioShouldPlay = false;
-let audioTrackIndex = 0;
-let audioPlaylist = [];
 let guestbook = null;
 let mapView = null;
 let gallery = null;
@@ -109,14 +100,6 @@ const introDialog = createDialogController({
       stream?.focus({ preventScroll: true });
     }
   },
-});
-const historyDialog = createDialogController({
-  overlay: historyOverlay,
-  panel: historyPanel,
-  trigger: historyTrigger,
-  bodyClass: "is-history-open",
-  initialFocus: historyClose,
-  transitionMs: 320,
 });
 const contactDialog = createDialogController({
   overlay: contactOverlay,
@@ -162,110 +145,6 @@ function syncTopbarState() {
     return;
   }
   siteTopbar.classList.toggle("is-compact", window.scrollY > 48);
-}
-
-function getAudioPlaylist() {
-  if (!backgroundAudio) {
-    return [];
-  }
-  if (audioPlaylist.length) {
-    return audioPlaylist;
-  }
-
-  const rawTracks = backgroundAudio.dataset.tracks;
-  if (!rawTracks) {
-    return [];
-  }
-
-  try {
-    const parsed = JSON.parse(rawTracks);
-    if (Array.isArray(parsed)) {
-      audioPlaylist = parsed.filter((track) => typeof track === "string" && track.length > 0);
-      return audioPlaylist;
-    }
-  } catch (error) {
-    // Fall through to comma-separated parsing.
-  }
-
-  audioPlaylist = rawTracks.split(",").map((track) => track.trim()).filter(Boolean);
-  return audioPlaylist;
-}
-
-function loadAudioTrack(index, resetTime = true) {
-  if (!backgroundAudio) {
-    return false;
-  }
-
-  const tracks = getAudioPlaylist();
-  if (!tracks.length) {
-    return false;
-  }
-
-  const normalizedIndex = ((index % tracks.length) + tracks.length) % tracks.length;
-  const nextSource = tracks[normalizedIndex];
-  audioTrackIndex = normalizedIndex;
-  if (backgroundAudio.getAttribute("src") !== nextSource) {
-    backgroundAudio.src = nextSource;
-  }
-  if (resetTime) {
-    backgroundAudio.currentTime = 0;
-  }
-  return true;
-}
-
-function ensureAudioSource() {
-  if (!backgroundAudio || backgroundAudio.currentSrc) {
-    return;
-  }
-  loadAudioTrack(audioTrackIndex, false);
-}
-
-function updateAudioToggle() {
-  if (!audioToggle || !backgroundAudio) {
-    return;
-  }
-  const isPlaying = !backgroundAudio.paused && !backgroundAudio.ended;
-  audioToggle.textContent = isPlaying ? "음악 ON" : "음악 OFF";
-  audioToggle.setAttribute("aria-pressed", String(isPlaying));
-}
-
-async function playNextTrack() {
-  if (!backgroundAudio || !audioShouldPlay) {
-    updateAudioToggle();
-    return;
-  }
-  if (!loadAudioTrack(audioTrackIndex + 1)) {
-    return;
-  }
-  try {
-    await backgroundAudio.play();
-  } catch (error) {
-    audioShouldPlay = false;
-  } finally {
-    updateAudioToggle();
-  }
-}
-
-async function toggleBackgroundAudio() {
-  if (!backgroundAudio) {
-    return;
-  }
-  if (!backgroundAudio.paused) {
-    audioShouldPlay = false;
-    backgroundAudio.pause();
-    updateAudioToggle();
-    return;
-  }
-  audioShouldPlay = true;
-  backgroundAudio.volume = 0.025;
-  ensureAudioSource();
-  try {
-    await backgroundAudio.play();
-  } catch (error) {
-    audioShouldPlay = false;
-  } finally {
-    updateAudioToggle();
-  }
 }
 
 async function loadStatusUpdate() {
@@ -314,21 +193,12 @@ function runNonCriticalTasks() {
   window.setTimeout(execute, 320);
 }
 
-const infoDialogs = [historyDialog, contactDialog, traceDialog, filterDialog, mapDialog];
+const infoDialogs = [contactDialog, traceDialog, filterDialog, mapDialog];
 
 function closeOtherInfoDialogs(activeDialog) {
   infoDialogs.forEach((dialog) => {
     if (dialog !== activeDialog) dialog.close({ restoreFocus: false });
   });
-}
-
-function openHistoryOverlay() {
-  closeOtherInfoDialogs(historyDialog);
-  historyDialog.open();
-}
-
-function closeHistoryOverlay() {
-  historyDialog.close();
 }
 
 function openContactOverlay() {
@@ -510,13 +380,11 @@ lightboxView = createLightbox({
 
 writeExhibitionState(initialExhibitionState, { mode: "replace", photoEntry: false });
 
-bindOverlayToggle(historyTrigger, historyDialog, openHistoryOverlay, closeHistoryOverlay);
 bindOverlayToggle(contactTrigger, contactDialog, openContactOverlay, closeContactOverlay);
 bindOverlayToggle(traceTrigger, traceDialog, openTraceOverlay, closeTraceOverlay);
 bindOverlayToggle(filterTrigger, filterDialog, openFilterOverlay, closeFilterOverlay);
 bindOverlayToggle(mapTrigger, mapDialog, () => openMapOverlay(), closeMapOverlay);
 
-historyClose?.addEventListener("click", closeHistoryOverlay);
 contactClose?.addEventListener("click", closeContactOverlay);
 traceClose?.addEventListener("click", closeTraceOverlay);
 filterClose?.addEventListener("click", closeFilterOverlay);
@@ -524,10 +392,6 @@ mapClose?.addEventListener("click", closeMapOverlay);
 window.addEventListener("popstate", syncFromLocation);
 window.addEventListener("scroll", syncTopbarState, { passive: true });
 introEnter?.addEventListener("click", fadeIntro);
-audioToggle?.addEventListener("click", toggleBackgroundAudio);
-backgroundAudio?.addEventListener("play", updateAudioToggle);
-backgroundAudio?.addEventListener("pause", updateAudioToggle);
-backgroundAudio?.addEventListener("ended", playNextTrack);
 
 syncTopbarState();
 loadPhotos();

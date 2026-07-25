@@ -10,7 +10,6 @@ ASSET_VERSION_TOKENS = {
     "{{EXHIBITION_JS_VERSION}}": Path("js"),
     "{{ADMIN_CSS_VERSION}}": Path("css/admin.css"),
     "{{ADMIN_JS_VERSION}}": Path("js/admin.js"),
-    "{{BGM_VERSION}}": Path("audio/moment-bgm.mp3"),
 }
 
 

@@ -49,6 +49,6 @@ Do not post passwords, API keys, `.env` values, database files, private uploads,
 
 ## Content Rules
 
-Do not add photographs, music, logos, private event material, real user data, API keys, secrets, local database files, or deployment-only settings to pull requests.
+Do not add photographs, logos, private event material, real user data, API keys, secrets, local database files, or deployment-only settings to pull requests.
 
 Source code and media content have different license terms. Read `CONTENT_LICENSE.md` before adding or replacing non-code files.

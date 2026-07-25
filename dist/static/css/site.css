@@ -33,7 +33,6 @@ body {
 }
 
 body.is-lightbox-open,
-body.is-history-open,
 body.is-contact-open,
 body.is-trace-open,
 body.is-filter-open,
@@ -90,12 +89,10 @@ img {
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.32);
 }
 
-.history-trigger,
 .contact-trigger,
 .filter-trigger,
 .map-trigger,
 .trace-trigger,
-.audio-toggle,
 .site-visitor-count {
   margin: 0;
   padding: 0.18rem 0;
@@ -167,7 +164,6 @@ img {
   user-select: none;
 }
 
-.history-trigger,
 .contact-trigger,
 .filter-trigger,
 .map-trigger,
@@ -191,10 +187,6 @@ img {
   content: "";
 }
 
-.audio-toggle {
-  justify-self: end;
-}
-
 .site-actions {
   display: inline-flex;
   align-items: center;
@@ -202,8 +194,6 @@ img {
   gap: 0.48rem;
 }
 
-.history-trigger:hover,
-.history-trigger:focus-visible,
 .contact-trigger:hover,
 .contact-trigger:focus-visible,
 .filter-trigger:hover,
@@ -211,9 +201,7 @@ img {
 .map-trigger:hover,
 .map-trigger:focus-visible,
 .trace-trigger:hover,
-.trace-trigger:focus-visible,
-.audio-toggle:hover,
-.audio-toggle:focus-visible {
+.trace-trigger:focus-visible {
   opacity: 0.68;
 }
 
@@ -223,12 +211,10 @@ img {
   border-color: rgba(255, 255, 255, 0.38);
 }
 
-.history-trigger:focus-visible,
 .contact-trigger:focus-visible,
 .filter-trigger:focus-visible,
 .map-trigger:focus-visible,
 .trace-trigger:focus-visible,
-.audio-toggle:focus-visible,
 .trace-submit:focus-visible,
 .exhibition-logo:focus-visible {
   outline: 1px solid rgba(255, 255, 255, 0.72);
@@ -1367,11 +1353,8 @@ img {
   }
 
   .site-nav-card {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-areas:
-      "brand brand"
-      "links actions";
-    gap: 0.12rem 0.42rem;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0.42rem;
     padding: 0.54rem 0.72rem 0.48rem;
     border-radius: 1.05rem;
   }
@@ -1381,12 +1364,10 @@ img {
     padding-bottom: 0.4rem;
   }
 
-  .history-trigger,
   .contact-trigger,
   .filter-trigger,
   .map-trigger,
-  .trace-trigger,
-  .audio-toggle {
+  .trace-trigger {
     min-height: 2.75rem;
     padding: 0.12rem 0.08rem;
     font-size: 0.69rem;
@@ -1418,21 +1399,15 @@ img {
     height: 58vh;
   }
 
-  .site-brand {
-    grid-area: brand;
-  }
-
   .site-actions {
-    grid-area: actions;
-    justify-self: stretch;
-    justify-content: space-between;
+    justify-self: end;
+    justify-content: flex-end;
     gap: 0.2rem;
   }
 
   .site-links {
-    grid-area: links;
-    justify-self: stretch;
-    justify-content: space-between;
+    justify-self: start;
+    justify-content: flex-start;
     gap: 0.2rem;
   }
 
@@ -1602,12 +1577,10 @@ img {
     gap: 0.12rem;
   }
 
-  .history-trigger,
   .contact-trigger,
   .filter-trigger,
   .map-trigger,
-  .trace-trigger,
-  .audio-toggle {
+  .trace-trigger {
     font-size: 0.63rem;
     letter-spacing: 0;
   }

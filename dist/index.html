@@ -17,17 +17,11 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:image" content="/static/og/moment-share.png">
 
-  <link rel="stylesheet" href="/static/css/site.css?v=18c32fe8085d02b8-7bd1">
-  <script type="module" src="/static/js/exhibition.js?v=12adcac09965c7e8"></script>
+  <link rel="stylesheet" href="/static/css/site.css?v=18c534b88874a8e4-79c0">
+  <script type="module" src="/static/js/exhibition.js?v=692f3a47fe1222dd"></script>
 </head>
 <body>
   <a class="skip-link" id="skipToGallery" href="#photoStream">사진 갤러리로 건너뛰기</a>
-  <audio
-    id="backgroundAudio"
-    preload="none"
-    playsinline
-    data-tracks='["/static/audio/moment-bgm.mp3?v=18b066b6e2391638-440bf3"]'
-  ></audio>
 
   <div class="intro-overlay" id="introOverlay" role="dialog" aria-modal="true" aria-label="MoMent 입장 안내">
     <div class="intro-shell">
@@ -39,26 +33,6 @@
         <p class="intro-instructions">사진을 클릭해 감상하세요.</p>
         <button class="intro-enter" id="introEnter" type="button">전시 입장</button>
         <p class="intro-updated" id="statusUpdated" hidden>최근 업데이트 --/-- --시:--분</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="history-overlay info-overlay" id="historyOverlay" hidden>
-    <div
-      class="history-panel info-panel"
-      id="historyPanel"
-      role="dialog"
-      aria-modal="true"
-      aria-label="&#xC5F0;&#xD601;"
-      tabindex="-1"
-    >
-      <button class="trace-close" id="historyClose" type="button" aria-label="연혁 닫기">×</button>
-      <div class="history-lines info-lines">
-        <p class="history-heading info-heading">&#xACE0;&#xACE0;&#xBBF8;&#xC220;&#xC0AC;&#xD559;&#xACFC; &#xBB38;&#xD654;&#xC720;&#xC0B0; &#xC0AC;&#xC9C4;&#xB2F5;&#xC0AC; &#xB3D9;&#xC544;&#xB9AC; MoMent</p>
-        <p class="history-line info-line">2023 &#xD68C;&#xC7A5; 19&#xC11C;&#xB3D9;&#xC9C4;</p>
-        <p class="history-line info-line">2024 &#xD68C;&#xC7A5; 21&#xC815;&#xD0DC;&#xC6C5;</p>
-        <p class="history-line info-line">2025 &#xD68C;&#xC7A5; 24&#xC2E0;&#xC6A9;&#xC740;</p>
-        <p class="history-line info-line">2026 &#xD68C;&#xC7A5; 24&#xC2E0;&#xC6A9;&#xC740;</p>
       </div>
     </div>
   </div>
@@ -189,17 +163,6 @@
       <div class="site-nav-card">
         <div class="site-links">
           <button
-            class="history-trigger"
-            id="historyTrigger"
-            type="button"
-            aria-haspopup="dialog"
-            aria-controls="historyOverlay"
-            aria-expanded="false"
-          >
-            &#xC5F0;&#xD601;
-          </button>
-          <span class="site-menu-separator" aria-hidden="true">&#x3163;</span>
-          <button
             class="contact-trigger"
             id="contactTrigger"
             type="button"
@@ -251,10 +214,6 @@
             aria-expanded="false"
           >
             방명록
-          </button>
-          <span class="site-menu-separator" aria-hidden="true">&#x3163;</span>
-          <button class="audio-toggle" id="audioToggle" type="button" aria-pressed="false">
-            &#xC74C;&#xC545; OFF
           </button>
         </div>
       </div>

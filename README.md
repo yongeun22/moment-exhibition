@@ -8,7 +8,7 @@ Small exhibition teams often need a quiet online gallery that can be edited loca
 
 ## Features
 
-- Minimal public photography exhibition with intro overlay, a two-row mobile navigation that keeps the logo separate from controls, hover/tap metadata, keyboard- and swipe-enabled lightbox viewing, and user-controlled background audio.
+- Minimal public photography exhibition with intro overlay, a single-row responsive navigation, hover/tap metadata, and keyboard- and swipe-enabled lightbox viewing.
 - Local-only administrator interface for one admin account.
 - Photo upload, expanded metadata editing, deletion, and generated display/lightbox image variants.
 - Gallery filtering by year, region, photographer, and place, with filters and the open photo reflected in the shareable URL.
@@ -105,7 +105,6 @@ By default this writes to `dist/`. The export contains:
 - `static/css/site.css`
 - `static/js/exhibition.js`
 - `static/js/modules/`
-- `static/audio/`
 - `static/og/`
 - `static/qr/`
 - `static/icons/`
@@ -200,10 +199,10 @@ Copy `.env.example` to `.env` for local overrides. Do not commit `.env`.
 
 See `CONTRIBUTING.md`. Keep changes focused, update tests and documentation with behavior changes, and verify both desktop and mobile views when changing UI.
 
-Do not include photographs, music, personal data, API keys, database files, secrets, or private deployment settings in pull requests.
+Do not include photographs, personal data, API keys, database files, secrets, or private deployment settings in pull requests.
 
 ## License
 
 Source code is licensed under the MIT License. See `LICENSE`.
 
-Photos, music, logos, exhibition text, and other media content are not automatically covered by the MIT License. See `CONTENT_LICENSE.md` before reusing any non-code content. Third-party users should replace the bundled exhibition content with content they own or have permission to use.
+Photos, logos, exhibition text, and other media content are not automatically covered by the MIT License. See `CONTENT_LICENSE.md` before reusing any non-code content. Third-party users should replace the bundled exhibition content with content they own or have permission to use.
