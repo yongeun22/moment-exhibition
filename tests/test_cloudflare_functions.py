@@ -31,6 +31,14 @@ class CloudflareFunctionTests(unittest.TestCase):
                 self.assertIn('import { json } from "../_shared/response.js";', source)
                 self.assertNotIn("function json(", source)
 
+    def test_retired_audio_routes_return_uncacheable_gone_response(self):
+        source = Path("functions/static/audio/[[path]].js").read_text(encoding="utf-8")
+
+        self.assertIn('import { SECURITY_HEADERS } from "../../_shared/response.js";', source)
+        self.assertIn("status: 410", source)
+        self.assertIn('"Cache-Control": "no-store"', source)
+        self.assertIn('"X-Robots-Tag": "noindex"', source)
+
     def test_traces_function_supports_photo_guestbook_schema(self):
         source = Path("functions/api/traces.js").read_text(encoding="utf-8")
         migration = Path("migrations/0001_initial_schema.sql").read_text(encoding="utf-8")

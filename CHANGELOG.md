@@ -32,6 +32,7 @@ All notable changes to this project will be documented in this file.
 
 - Removed the public history dialog and navigation control.
 - Removed background audio, its navigation control, bundled media asset, and static export path.
+- Retired audio asset URLs now return an uncached `410 Gone` response.
 
 ### Security
 
