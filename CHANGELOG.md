@@ -14,9 +14,8 @@ All notable changes to this project will be documented in this file.
 - Shared security headers for Cloudflare Pages Function JSON responses.
 - IP-wide admin login rate limiting in addition to the existing IP+username bucket.
 - Shared accessible dialog behavior with focus entry, focus trapping, focus return, Escape dismissal, and background inertness.
-- Mobile lightbox close/previous/next controls, swipe navigation, and visible photo position.
+- Mobile lightbox close control, swipe navigation, and keyboard photo navigation.
 - Restorable URL state for gallery filters and the open photo.
-- Map marker clustering, region controls, and a non-map place list.
 - Admin collection search, collapsed editors, unsaved-change warnings, advanced-field disclosure, and a publish checklist.
 
 ### Changed
@@ -27,12 +26,15 @@ All notable changes to this project will be documented in this file.
 - Simplified the responsive header to a single row with the MoMent logo centered between the remaining controls.
 - Stabilized randomized photo order for the browser session and converted lightbox information controls to real tabs.
 - Removed the frequently rewritten gallery grid from live-region announcements and added a skip link and concise status updates.
+- Changed the lightbox `정보` and `방명록` tabs from capsule controls to compact rectangular controls.
 
 ### Removed
 
 - Removed the public history dialog and navigation control.
 - Removed background audio, its navigation control, bundled media asset, and static export path.
 - Retired audio asset URLs now return an uncached `410 Gone` response.
+- Removed the public map menu, map dialog, lightbox map action, Leaflet assets, and OpenStreetMap CSP allowance.
+- Removed the persistent lightbox previous/next control bar and photo position counter while preserving keyboard and swipe navigation.
 
 ### Security
 

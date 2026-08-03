@@ -17,13 +17,13 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:image" content="/static/og/moment-share.png">
 
-  <link rel="stylesheet" href="/static/css/site.css?v=18c534b88874a8e4-79c0">
-  <script type="module" src="/static/js/exhibition.js?v=692f3a47fe1222dd"></script>
+  <link rel="stylesheet" href="/static/css/site.css?v=18c841a4372878d4-698b">
+  <script type="module" src="/static/js/exhibition.js?v=714a2e970fe1180f"></script>
 </head>
 <body>
   <a class="skip-link" id="skipToGallery" href="#photoStream">사진 갤러리로 건너뛰기</a>
 
-  <div class="intro-overlay" id="introOverlay" role="dialog" aria-modal="true" aria-label="MoMent 입장 안내">
+  <div class="intro-overlay" id="introOverlay" role="dialog" aria-modal="true" aria-label="MoMent 입장 안내" tabindex="-1">
     <div class="intro-shell">
       <div class="intro-brand">
         <div class="intro-subtitle">&#xACE0;&#xACE0;&#xBBF8;&#xC220;&#xC0AC;&#xD559;&#xACFC; &#xBB38;&#xD654;&#xC720;&#xC0B0; &#xC0AC;&#xC9C4; &#xB3D9;&#xC544;&#xB9AC;</div>
@@ -135,27 +135,6 @@
     </div>
   </div>
 
-  <div class="map-overlay info-overlay" id="mapOverlay" hidden>
-    <div
-      class="map-panel info-panel"
-      id="mapPanel"
-      role="dialog"
-      aria-modal="true"
-      aria-label="지도"
-      tabindex="-1"
-    >
-      <button class="trace-close" id="mapClose" type="button" aria-label="지도 닫기">×</button>
-      <div class="map-lines info-lines">
-        <p class="trace-title">MoMent Map</p>
-        <p class="trace-note">좌표가 등록된 장소만 지도에 표시됩니다.</p>
-        <div class="map-region-controls" id="mapRegionControls" aria-label="지도 권역 필터"></div>
-        <div class="moment-map" id="momentMap"></div>
-        <p class="trace-status" id="mapStatus" role="status" aria-live="polite"></p>
-        <div class="map-place-list" id="mapPlaceList" aria-label="지도 장소 목록"></div>
-      </div>
-    </div>
-  </div>
-
   <main class="site-shell">
     <h1 class="sr-only">MoMent Online Exhibition</h1>
 
@@ -191,20 +170,8 @@
         </div>
 
         <div class="site-actions">
-          <span class="site-menu-separator" aria-hidden="true">&#x3163;</span>
-          <span class="site-visitor-count" id="visitorCount" hidden>전시 방문 -</span>
+          <span class="site-visitor-count" id="visitorCount" hidden>방문자 -</span>
           <span class="site-menu-separator site-visitor-separator" aria-hidden="true" hidden>&#x3163;</span>
-          <button
-            class="map-trigger"
-            id="mapTrigger"
-            type="button"
-            aria-haspopup="dialog"
-            aria-controls="mapOverlay"
-            aria-expanded="false"
-          >
-            지도
-          </button>
-          <span class="site-menu-separator" aria-hidden="true">&#x3163;</span>
           <button
             class="trace-trigger"
             id="traceTrigger"
@@ -241,11 +208,6 @@
         <div class="lightbox-photo-meta" id="lightboxPhotoMeta"></div>
       </div>
       <div class="lightbox-meta" id="lightboxMeta"></div>
-      <div class="lightbox-navigation" aria-label="사진 이동">
-        <button class="lightbox-nav-button" id="lightboxPrevious" type="button" aria-label="이전 사진">이전</button>
-        <span class="lightbox-position" id="lightboxPosition" aria-live="polite"></span>
-        <button class="lightbox-nav-button" id="lightboxNext" type="button" aria-label="다음 사진">다음</button>
-      </div>
     </div>
   </div>
 </body>

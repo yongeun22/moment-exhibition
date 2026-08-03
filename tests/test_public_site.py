@@ -46,6 +46,9 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('id="historyOverlay"', index_html)
         self.assertNotIn('id="backgroundAudio"', index_html)
         self.assertNotIn('id="audioToggle"', index_html)
+        self.assertIn('id="visitorCount" hidden>방문자 -</span>', index_html)
+        self.assertIn('visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;', exhibition_js)
+        self.assertNotIn("전시 방문", exhibition_js)
         self.assertNotIn("historyDialog", exhibition_js)
         self.assertNotIn("toggleBackgroundAudio", exhibition_js)
 
@@ -60,12 +63,12 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn("일반 방명록", guestbook_js)
         self.assertNotIn("사진 방명록", guestbook_js)
 
-    def test_lightbox_and_map_keep_student_photo_actions_neutral(self):
+    def test_lightbox_keeps_metadata_and_tabs_without_map_action(self):
         root = Path(__file__).resolve().parents[1]
         index_html = (root / "static" / "index.html").read_text(encoding="utf-8")
         exhibition_js = (root / "static" / "js" / "exhibition.js").read_text(encoding="utf-8")
         lightbox_js = (root / "static" / "js" / "modules" / "lightbox.js").read_text(encoding="utf-8")
-        map_js = (root / "static" / "js" / "modules" / "map-view.js").read_text(encoding="utf-8")
+        site_css = (root / "static" / "css" / "site.css").read_text(encoding="utf-8")
 
         self.assertIn('id="lightboxPhotoMeta"', index_html)
         self.assertIn("lightbox-photo-meta-list", lightbox_js)
@@ -73,30 +76,28 @@ class PublicSiteTests(unittest.TestCase):
         self.assertIn("photo-guestbook-grid", lightbox_js)
         self.assertIn("photo-guestbook-actions", lightbox_js)
         self.assertIn('role="tab"', lightbox_js)
-        self.assertIn('data-lightbox-map', lightbox_js)
-        self.assertIn("지도에서 장소 보기", lightbox_js)
-        self.assertNotIn("대표 사진", map_js)
-        self.assertNotIn("data-map-open-photo", map_js)
-        self.assertIn(
-            "onFilterPlace: (placeName) => {\n"
-            "    gallery.applyPlaceFilter(placeName);\n"
-            "    closeMapOverlay();\n"
-            "  },",
-            exhibition_js,
-        )
+        self.assertIn("border-radius: 0.34rem", site_css)
+        self.assertNotIn('data-lightbox-map', lightbox_js)
+        self.assertNotIn("지도에서 장소 보기", lightbox_js)
+        self.assertNotIn("mapView", exhibition_js)
+        self.assertNotIn('id="mapOverlay"', index_html)
 
     def test_public_ui_has_dialog_navigation_and_restorable_url_state(self):
         root = Path(__file__).resolve().parents[1]
         index_html = (root / "static" / "index.html").read_text(encoding="utf-8")
         exhibition_js = (root / "static" / "js" / "exhibition.js").read_text(encoding="utf-8")
+        lightbox_js = (root / "static" / "js" / "modules" / "lightbox.js").read_text(encoding="utf-8")
         dialog_js = (root / "static" / "js" / "modules" / "dialog.js").read_text(encoding="utf-8")
         url_state_js = (root / "static" / "js" / "modules" / "url-state.js").read_text(encoding="utf-8")
         utils_js = (root / "static" / "js" / "modules" / "utils.js").read_text(encoding="utf-8")
 
         self.assertIn('id="skipToGallery"', index_html)
-        self.assertIn('id="lightboxPrevious"', index_html)
-        self.assertIn('id="lightboxNext"', index_html)
-        self.assertIn('id="lightboxPosition"', index_html)
+        self.assertNotIn('id="lightboxPrevious"', index_html)
+        self.assertNotIn('id="lightboxNext"', index_html)
+        self.assertNotIn('id="lightboxPosition"', index_html)
+        self.assertNotIn("lightbox-navigation", index_html)
+        self.assertIn('event.key === "ArrowLeft"', lightbox_js)
+        self.assertIn('addEventListener("pointerdown"', lightbox_js)
         self.assertNotIn('id="photoStream" aria-live=', index_html)
         self.assertIn('mode === "push" ? "pushState" : "replaceState"', url_state_js)
         self.assertIn("window.history[method]", url_state_js)
@@ -105,17 +106,17 @@ class PublicSiteTests(unittest.TestCase):
         self.assertIn('event.key !== "Tab"', dialog_js)
         self.assertIn("syncBackgroundInert", dialog_js)
 
-    def test_map_and_admin_have_fallback_workflows(self):
+    def test_public_map_is_removed_while_admin_workflows_remain(self):
         root = Path(__file__).resolve().parents[1]
         index_html = (root / "static" / "index.html").read_text(encoding="utf-8")
-        map_js = (root / "static" / "js" / "modules" / "map-view.js").read_text(encoding="utf-8")
         admin_html = (root / "static" / "admin" / "index.html").read_text(encoding="utf-8")
         admin_js = (root / "static" / "js" / "admin.js").read_text(encoding="utf-8")
 
-        self.assertIn('id="mapRegionControls"', index_html)
-        self.assertIn('id="mapPlaceList"', index_html)
-        self.assertIn("renderRegionControls", map_js)
-        self.assertIn("renderPlaceList", map_js)
+        self.assertNotIn('id="mapTrigger"', index_html)
+        self.assertNotIn('id="mapOverlay"', index_html)
+        self.assertFalse((root / "static" / "js" / "modules" / "map-view.js").exists())
+        self.assertFalse((root / "static" / "vendor" / "leaflet" / "leaflet.js").exists())
+        self.assertFalse((root / "static" / "vendor" / "leaflet" / "leaflet.css").exists())
         self.assertIn('id="adminPhotoSearch"', admin_html)
         self.assertIn('id="publishChecklist"', admin_html)
         self.assertIn("filterAdminPhotos", admin_js)

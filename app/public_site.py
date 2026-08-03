@@ -126,7 +126,6 @@ def export_static_site(
     (output_dir / "static" / "og").mkdir(parents=True, exist_ok=True)
     (output_dir / "static" / "qr").mkdir(parents=True, exist_ok=True)
     (output_dir / "static" / "icons").mkdir(parents=True, exist_ok=True)
-    (output_dir / "static" / "vendor").mkdir(parents=True, exist_ok=True)
     (output_dir / "uploads").mkdir(parents=True, exist_ok=True)
     (output_dir / "data").mkdir(parents=True, exist_ok=True)
 
@@ -140,7 +139,6 @@ def export_static_site(
     _copy_tree(static_dir / "og", output_dir / "static" / "og")
     _copy_tree(static_dir / "qr", output_dir / "static" / "qr")
     _copy_tree(static_dir / "icons", output_dir / "static" / "icons")
-    _copy_tree(static_dir / "vendor", output_dir / "static" / "vendor")
 
     photos_data = database.list_photos()
     filenames = [photo["filename"] for photo in photos_data]
@@ -188,9 +186,6 @@ def export_static_site(
             "  Cache-Control: public, max-age=31536000, immutable",
             "",
             "/static/icons/*",
-            "  Cache-Control: public, max-age=31536000, immutable",
-            "",
-            "/static/vendor/*",
             "  Cache-Control: public, max-age=31536000, immutable",
             "",
             "/uploads/*",
