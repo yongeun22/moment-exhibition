@@ -1173,11 +1173,6 @@ img {
     white-space: nowrap;
   }
 
-  .site-visitor-count,
-  .site-visitor-separator {
-    display: none;
-  }
-
   .site-menu-separator {
     font-size: 0.67rem;
   }
@@ -1302,7 +1297,7 @@ img {
   }
 
   .lightbox-photo-meta-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.4rem 0.72rem;
   }
 
