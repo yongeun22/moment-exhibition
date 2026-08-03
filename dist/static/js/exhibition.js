@@ -18,7 +18,7 @@ const [
   import(versionedModule("./modules/url-state.js")),
 ]);
 
-const { loadPhotosPayload, loadStatusUpdatePayload, recordVisit } = apiModule;
+const { loadPhotosPayload, loadStatusUpdatePayload, loadVisitCount, recordVisit } = apiModule;
 const { createGallery } = galleryModule;
 const { createGuestbook } = guestbookModule;
 const { createLightbox } = lightboxModule;
@@ -141,19 +141,27 @@ async function loadStatusUpdate() {
 }
 
 async function recordPublicVisit() {
+  let payload = null;
   try {
-    const payload = await recordVisit();
-    const count = Number(payload?.count || 0);
-    if (!visitorCount || !Number.isFinite(count) || count <= 0) {
-      return;
-    }
-    visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;
-    visitorCount.hidden = false;
-    if (visitorSeparator) {
-      visitorSeparator.hidden = false;
-    }
+    payload = await recordVisit();
   } catch (error) {
-    // Visit counting should never block the exhibition UI.
+    // A count read below keeps the display available when the visit write fails.
+  }
+  if (!payload) {
+    try {
+      payload = await loadVisitCount();
+    } catch (error) {
+      // Visit counting should never block the exhibition UI.
+    }
+  }
+  const count = Number(payload?.count || 0);
+  if (!visitorCount || !Number.isFinite(count) || count <= 0) {
+    return;
+  }
+  visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;
+  visitorCount.hidden = false;
+  if (visitorSeparator) {
+    visitorSeparator.hidden = false;
   }
 }
 

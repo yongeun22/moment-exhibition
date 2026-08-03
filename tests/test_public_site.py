@@ -38,6 +38,7 @@ class PublicSiteTests(unittest.TestCase):
         site_css = (root / "static" / "css" / "site.css").read_text(encoding="utf-8")
         index_html = (root / "static" / "index.html").read_text(encoding="utf-8")
         exhibition_js = (root / "static" / "js" / "exhibition.js").read_text(encoding="utf-8")
+        api_js = (root / "static" / "js" / "modules" / "api.js").read_text(encoding="utf-8")
 
         self.assertIn("grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);", site_css)
         self.assertNotIn('"brand brand"\n      "links actions"', site_css)
@@ -48,6 +49,8 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('id="audioToggle"', index_html)
         self.assertIn('id="visitorCount" hidden>방문자 -</span>', index_html)
         self.assertIn('visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;', exhibition_js)
+        self.assertIn("loadVisitCount", exhibition_js)
+        self.assertIn("export async function loadVisitCount()", api_js)
         self.assertNotIn(
             ".site-visitor-count,\n  .site-visitor-separator {\n    display: none;",
             site_css,
