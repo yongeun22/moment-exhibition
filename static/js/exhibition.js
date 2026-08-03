@@ -5,7 +5,6 @@ const [
   galleryModule,
   guestbookModule,
   lightboxModule,
-  mapViewModule,
   utilsModule,
   dialogModule,
   urlStateModule,
@@ -14,7 +13,6 @@ const [
   import(versionedModule("./modules/gallery.js")),
   import(versionedModule("./modules/guestbook.js")),
   import(versionedModule("./modules/lightbox.js")),
-  import(versionedModule("./modules/map-view.js")),
   import(versionedModule("./modules/utils.js")),
   import(versionedModule("./modules/dialog.js")),
   import(versionedModule("./modules/url-state.js")),
@@ -24,7 +22,6 @@ const { loadPhotosPayload, loadStatusUpdatePayload, recordVisit } = apiModule;
 const { createGallery } = galleryModule;
 const { createGuestbook } = guestbookModule;
 const { createLightbox } = lightboxModule;
-const { createMapView } = mapViewModule;
 const { formatKoreanUpdateTime, stableShufflePhotos } = utilsModule;
 const { createDialogController } = dialogModule;
 const { readExhibitionState, writeExhibitionState } = urlStateModule;
@@ -42,9 +39,6 @@ const lightboxImageBuffer = document.getElementById("lightboxImageBuffer");
 const lightboxPhotoMeta = document.getElementById("lightboxPhotoMeta");
 const lightboxMeta = document.getElementById("lightboxMeta");
 const lightboxClose = document.getElementById("lightboxClose");
-const lightboxPrevious = document.getElementById("lightboxPrevious");
-const lightboxNext = document.getElementById("lightboxNext");
-const lightboxPosition = document.getElementById("lightboxPosition");
 const contactTrigger = document.getElementById("contactTrigger");
 const contactOverlay = document.getElementById("contactOverlay");
 const contactPanel = document.getElementById("contactPanel");
@@ -64,21 +58,12 @@ const filterClose = document.getElementById("filterClose");
 const filterControls = document.getElementById("filterControls");
 const filterCountText = document.getElementById("filterCountText");
 const filterReset = document.getElementById("filterReset");
-const mapTrigger = document.getElementById("mapTrigger");
-const mapOverlay = document.getElementById("mapOverlay");
-const mapPanel = document.getElementById("mapPanel");
-const mapClose = document.getElementById("mapClose");
-const momentMap = document.getElementById("momentMap");
-const mapStatus = document.getElementById("mapStatus");
-const mapRegionControls = document.getElementById("mapRegionControls");
-const mapPlaceList = document.getElementById("mapPlaceList");
 const galleryStatus = document.getElementById("galleryStatus");
 const visitorCount = document.getElementById("visitorCount");
 const visitorSeparator = document.querySelector(".site-visitor-separator");
 const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
 let guestbook = null;
-let mapView = null;
 let gallery = null;
 let lightboxView = null;
 let photosLoaded = false;
@@ -91,7 +76,7 @@ const introDialog = createDialogController({
   transitionMs: 950,
   visibleClass: "",
   closingClass: "is-fading",
-  initialFocus: introEnter,
+  initialFocus: introOverlay,
   closeOnBackdrop: false,
   onClosed: () => {
     if (photosLoaded) {
@@ -125,15 +110,6 @@ const filterDialog = createDialogController({
   initialFocus: filterClose,
   transitionMs: 320,
 });
-const mapDialog = createDialogController({
-  overlay: mapOverlay,
-  panel: mapPanel,
-  trigger: mapTrigger,
-  bodyClass: "is-map-open",
-  initialFocus: mapClose,
-  transitionMs: 320,
-});
-
 introDialog.activateInitial();
 
 function fadeIntro() {
@@ -171,7 +147,7 @@ async function recordPublicVisit() {
     if (!visitorCount || !Number.isFinite(count) || count <= 0) {
       return;
     }
-    visitorCount.textContent = `전시 방문 ${count.toLocaleString("ko-KR")}`;
+    visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;
     visitorCount.hidden = false;
     if (visitorSeparator) {
       visitorSeparator.hidden = false;
@@ -193,7 +169,7 @@ function runNonCriticalTasks() {
   window.setTimeout(execute, 320);
 }
 
-const infoDialogs = [contactDialog, traceDialog, filterDialog, mapDialog];
+const infoDialogs = [contactDialog, traceDialog, filterDialog];
 
 function closeOtherInfoDialogs(activeDialog) {
   infoDialogs.forEach((dialog) => {
@@ -227,20 +203,6 @@ function openFilterOverlay() {
 
 function closeFilterOverlay() {
   filterDialog.close();
-}
-
-function openMapOverlay(focusPhoto = null) {
-  closeOtherInfoDialogs(mapDialog);
-  mapDialog.open();
-  if (focusPhoto) {
-    mapView?.focusPhoto(focusPhoto);
-    return;
-  }
-  mapView?.render();
-}
-
-function closeMapOverlay() {
-  mapDialog.close();
 }
 
 function bindOverlayToggle(trigger, dialog, openFn, closeFn) {
@@ -336,18 +298,6 @@ guestbook = createGuestbook({
   },
 });
 
-mapView = createMapView({
-  mapElement: momentMap,
-  mapStatus,
-  mapRegionControls,
-  mapPlaceList,
-  getPhotos: () => gallery.getPhotos(),
-  onFilterPlace: (placeName) => {
-    gallery.applyPlaceFilter(placeName);
-    closeMapOverlay();
-  },
-});
-
 lightboxView = createLightbox({
   lightbox,
   lightboxContent,
@@ -356,17 +306,9 @@ lightboxView = createLightbox({
   lightboxPhotoMeta,
   lightboxMeta,
   lightboxClose,
-  lightboxPrevious,
-  lightboxNext,
-  lightboxPosition,
   gallery,
   onTraceChange: (entries, count) => {
     guestbook.setEntries(entries, count);
-  },
-  onShowMap: (photo) => {
-    lightboxView.close({ notify: false });
-    writeCurrentState({ photoId: null, mode: "replace" });
-    openMapOverlay(photo);
   },
   onPhotoChange: (photoId, historyMode) => {
     writeCurrentState({
@@ -383,12 +325,10 @@ writeExhibitionState(initialExhibitionState, { mode: "replace", photoEntry: fals
 bindOverlayToggle(contactTrigger, contactDialog, openContactOverlay, closeContactOverlay);
 bindOverlayToggle(traceTrigger, traceDialog, openTraceOverlay, closeTraceOverlay);
 bindOverlayToggle(filterTrigger, filterDialog, openFilterOverlay, closeFilterOverlay);
-bindOverlayToggle(mapTrigger, mapDialog, () => openMapOverlay(), closeMapOverlay);
 
 contactClose?.addEventListener("click", closeContactOverlay);
 traceClose?.addEventListener("click", closeTraceOverlay);
 filterClose?.addEventListener("click", closeFilterOverlay);
-mapClose?.addEventListener("click", closeMapOverlay);
 window.addEventListener("popstate", syncFromLocation);
 window.addEventListener("scroll", syncTopbarState, { passive: true });
 introEnter?.addEventListener("click", fadeIntro);

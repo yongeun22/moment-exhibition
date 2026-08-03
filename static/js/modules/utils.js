@@ -85,11 +85,3 @@ export function formatKoreanUpdateTime(value) {
 export function photoById(photos, photoId) {
   return photos.find((photo) => String(photo.id) === String(photoId)) || null;
 }
-
-function hasCoordinateValue(value) {
-  return value !== null && value !== undefined && String(value).trim() !== "" && Number.isFinite(Number(value));
-}
-
-export function isCoordinatePair(photo) {
-  return hasCoordinateValue(photo?.lat) && hasCoordinateValue(photo?.lng);
-}

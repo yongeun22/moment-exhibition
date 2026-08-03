@@ -13,8 +13,7 @@ Small exhibition teams often need a quiet online gallery that can be edited loca
 - Photo upload, expanded metadata editing, deletion, and generated display/lightbox image variants.
 - Gallery filtering by year, region, photographer, and place, with filters and the open photo reflected in the shareable URL.
 - Integrated public guestbook, with photo-specific entries also shown in each lightbox.
-- Photo lightbox with compact metadata, previous/next controls, real `정보`/`방명록` tabs, and a separate map action.
-- Lazy-loaded MoMent Map using self-hosted Leaflet assets and OpenStreetMap tiles, with marker clustering, region chips, and a keyboard-friendly place list.
+- Photo lightbox with compact metadata and rectangular `정보`/`방명록` tabs; keyboard and swipe gestures remain available without a persistent previous/next control bar.
 - SQLite storage for the local admin app.
 - Static export for Cloudflare Pages or another static host.
 - Public visit counter, latest-update marker, and guestbook APIs through Cloudflare Pages Functions and a D1 binding.
@@ -33,7 +32,6 @@ No screenshots are committed yet. Add real screenshots captured from the local a
 - SQLite
 - Plain HTML, CSS, and JavaScript
 - Pillow for image validation and display/lightbox variants
-- Leaflet 1.9.4 vendored in `static/vendor/leaflet/` for the optional map view
 - Cloudflare Pages Functions for public counters and guestbook APIs
 
 ## Requirements
@@ -108,7 +106,6 @@ By default this writes to `dist/`. The export contains:
 - `static/og/`
 - `static/qr/`
 - `static/icons/`
-- `static/vendor/leaflet/`
 - `uploads/` display and lightbox images used by the public site
 - `data/photos.json`
 - `_headers` for Cloudflare Pages cache and security headers
@@ -131,8 +128,6 @@ The admin page is not exported. Admin editing remains local in the Python app.
 8. Generate a separate status token with `py -3.13 manage.py generate-operator-token --purpose status-update` and set its printed verifier as `STATUS_UPDATE_TOKEN_HASH`. There is no committed fallback. Send the raw token only in the request header, for example `Authorization: Bearer <token>`.
 
 After each exhibition change, export again and redeploy the updated `dist/`.
-
-The map view requests OpenStreetMap raster tiles from `https://tile.openstreetmap.org` only when a visitor opens the `지도` panel. Map popups group photos by place; `사진 보기` applies that place filter and returns to the gallery without selecting a representative student photograph. The static export CSP allows that tile host in `img-src`.
 
 ## Environment Variables
 
@@ -176,7 +171,7 @@ Copy `.env.example` to `.env` for local overrides. Do not commit `.env`.
 - `functions/api/`: Cloudflare Pages Functions for public APIs.
 - `migrations/`: versioned Cloudflare D1 schema and one-time maintenance SQL.
 - `dist/`: generated static site currently used for deployment.
-- `docs/operating-policy.md`: guestbook, description, and map coordinate operating policy.
+- `docs/operating-policy.md`: guestbook, description, and retained coordinate-metadata policy.
 - `docs/2026-07-18-security-uiux-report.md`: security remediation status and UI/UX priority rationale.
 - `docs/original-specification.md`: preserved original project specification.
 - `tests/`: automated tests.

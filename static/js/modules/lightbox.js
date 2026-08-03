@@ -1,6 +1,6 @@
 import { loadTraces, submitTrace } from "./api.js";
 import { createDialogController } from "./dialog.js";
-import { displayLocation, escapeHtml, isCoordinatePair } from "./utils.js";
+import { displayLocation, escapeHtml } from "./utils.js";
 
 export function createLightbox({
   lightbox,
@@ -10,12 +10,8 @@ export function createLightbox({
   lightboxPhotoMeta,
   lightboxMeta,
   lightboxClose,
-  lightboxPrevious,
-  lightboxNext,
-  lightboxPosition,
   gallery,
   onTraceChange,
-  onShowMap,
   onPhotoChange,
   onClose,
 }) {
@@ -175,7 +171,6 @@ export function createLightbox({
     }
 
     lightboxContent.dataset.activeTab = activeTab;
-    const hasMap = isCoordinatePair(openPhoto);
     const hasInfoPanel = Boolean(openPhoto.description);
     const panelMarkup = activeTab === "guestbook"
       ? renderGuestbookPanel(openPhoto)
@@ -185,7 +180,6 @@ export function createLightbox({
         <button class="lightbox-tab ${activeTab === "info" ? "is-active" : ""}" id="lightboxInfoTab" type="button" role="tab" aria-selected="${activeTab === "info"}" aria-controls="lightboxInfoPanel" tabindex="${activeTab === "info" ? "0" : "-1"}" data-lightbox-tab="info">정보</button>
         <button class="lightbox-tab ${activeTab === "guestbook" ? "is-active" : ""}" id="lightboxGuestbookTab" type="button" role="tab" aria-selected="${activeTab === "guestbook"}" aria-controls="lightboxGuestbookPanel" tabindex="${activeTab === "guestbook" ? "0" : "-1"}" data-lightbox-tab="guestbook">방명록 ${photoCount}</button>
       </div>
-      ${hasMap ? '<button class="lightbox-map-button" type="button" data-lightbox-map>지도에서 장소 보기</button>' : ""}
       ${panelMarkup}
     `;
 
@@ -193,7 +187,6 @@ export function createLightbox({
       button.addEventListener("click", () => selectTab(button.dataset.lightboxTab, { focus: true }));
       button.addEventListener("keydown", handleTabKeydown);
     });
-    lightboxMeta.querySelector("[data-lightbox-map]")?.addEventListener("click", () => onShowMap(openPhoto));
     lightboxMeta.querySelector("#photoGuestbookForm")?.addEventListener("submit", submitPhotoGuestbook);
     if (focusSelectedTab) {
       lightboxMeta.querySelector(`[data-lightbox-tab="${activeTab}"]`)?.focus();
@@ -292,17 +285,6 @@ export function createLightbox({
       : gallery.getPhotos();
   }
 
-  function updateNavigation() {
-    const photos = navigationPhotos();
-    const index = photos.findIndex((photo) => String(photo.id) === String(openPhoto?.id));
-    const hasMultiple = photos.length > 1 && index >= 0;
-    if (lightboxPrevious) lightboxPrevious.disabled = !hasMultiple;
-    if (lightboxNext) lightboxNext.disabled = !hasMultiple;
-    if (lightboxPosition) {
-      lightboxPosition.textContent = index >= 0 ? `${index + 1} / ${photos.length}` : "";
-    }
-  }
-
   function renderPhoto(photo) {
     openPhoto = photo;
     activeTab = "info";
@@ -318,7 +300,6 @@ export function createLightbox({
     if (lightboxImageBuffer) lightboxImageBuffer.alt = `${location}, ${photo.date}`;
     if (lightboxPhotoMeta) lightboxPhotoMeta.innerHTML = renderPhotoMeta(photo);
     renderPanel();
-    updateNavigation();
     loadPhotoGuestbook(photo.id);
     swapHighRes(photo, currentToken);
   }
@@ -359,8 +340,6 @@ export function createLightbox({
   }
 
   lightboxClose?.addEventListener("click", () => close());
-  lightboxPrevious?.addEventListener("click", () => navigate(-1));
-  lightboxNext?.addEventListener("click", () => navigate(1));
 
   lightboxContent.addEventListener("keydown", (event) => {
     if (event.target.closest("input, textarea, select, [role='tab']")) {
