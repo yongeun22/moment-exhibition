@@ -68,6 +68,16 @@ export async function recordVisit() {
   return response.json();
 }
 
+export async function loadVisitCount() {
+  const response = await fetch("/api/visits", {
+    headers: { Accept: "application/json" },
+  });
+  if (!response.ok) {
+    return null;
+  }
+  return response.json();
+}
+
 export async function loadStatusUpdatePayload() {
   const response = await fetch("/api/status-update", {
     headers: { Accept: "application/json" },
