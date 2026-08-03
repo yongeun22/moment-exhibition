@@ -48,6 +48,10 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('id="audioToggle"', index_html)
         self.assertIn('id="visitorCount" hidden>방문자 -</span>', index_html)
         self.assertIn('visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;', exhibition_js)
+        self.assertNotIn(
+            ".site-visitor-count,\n  .site-visitor-separator {\n    display: none;",
+            site_css,
+        )
         self.assertNotIn("전시 방문", exhibition_js)
         self.assertNotIn("historyDialog", exhibition_js)
         self.assertNotIn("toggleBackgroundAudio", exhibition_js)
@@ -77,6 +81,7 @@ class PublicSiteTests(unittest.TestCase):
         self.assertIn("photo-guestbook-actions", lightbox_js)
         self.assertIn('role="tab"', lightbox_js)
         self.assertIn("border-radius: 0.34rem", site_css)
+        self.assertIn("grid-template-columns: repeat(3, minmax(0, 1fr));", site_css)
         self.assertNotIn('data-lightbox-map', lightbox_js)
         self.assertNotIn("지도에서 장소 보기", lightbox_js)
         self.assertNotIn("mapView", exhibition_js)
