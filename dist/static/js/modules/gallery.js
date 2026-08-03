@@ -70,6 +70,10 @@ export function createGallery({
               <dt class="meta-term">촬영</dt>
               <dd class="meta-value">${escapeHtml(photo.photographer)}</dd>
             </div>
+            <div class="meta-block">
+              <dt class="meta-term">권역</dt>
+              <dd class="meta-value">${escapeHtml(photo.region)}</dd>
+            </div>
           </dl>
         </figcaption>
       </figure>

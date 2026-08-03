@@ -70,6 +70,15 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn("일반 방명록", guestbook_js)
         self.assertNotIn("사진 방명록", guestbook_js)
 
+    def test_gallery_cards_keep_four_metadata_fields_in_a_two_by_two_grid(self):
+        root = Path(__file__).resolve().parents[1]
+        gallery_js = (root / "static" / "js" / "modules" / "gallery.js").read_text(encoding="utf-8")
+        site_css = (root / "static" / "css" / "site.css").read_text(encoding="utf-8")
+
+        for label in ("날짜", "장소", "촬영", "권역"):
+            self.assertIn(f'<dt class="meta-term">{label}</dt>', gallery_js)
+        self.assertNotIn(".meta-list {\n    grid-template-columns: 1fr;", site_css)
+
     def test_lightbox_keeps_metadata_and_tabs_without_map_action(self):
         root = Path(__file__).resolve().parents[1]
         index_html = (root / "static" / "index.html").read_text(encoding="utf-8")
