@@ -98,7 +98,10 @@ img {
   border-radius: 0;
   background: transparent;
   color: #ffffff;
+  font-family: var(--meta-font);
   font-size: 0.82rem;
+  font-weight: 400;
+  line-height: normal;
   letter-spacing: 0.07em;
   cursor: pointer;
   transition: opacity 180ms ease;
@@ -1165,7 +1168,8 @@ img {
 
   .contact-trigger,
   .filter-trigger,
-  .trace-trigger {
+  .trace-trigger,
+  .site-visitor-count {
     min-height: 2.75rem;
     padding: 0.12rem 0.08rem;
     font-size: 0.69rem;
@@ -1356,7 +1360,8 @@ img {
 
   .contact-trigger,
   .filter-trigger,
-  .trace-trigger {
+  .trace-trigger,
+  .site-visitor-count {
     font-size: 0.63rem;
     letter-spacing: 0;
   }
