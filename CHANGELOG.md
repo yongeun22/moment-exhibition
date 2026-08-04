@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Restored the public counter to increment for every recorded exhibition page visit instead of deduplicating by browser token.
 - Generalized administrator examples from project-specific values to `admin` and `/admin`.
 - Made admin login rate limiting thread-safe for the local threaded server.
 - Preserved the original project prompt under `docs/original-specification.md`.

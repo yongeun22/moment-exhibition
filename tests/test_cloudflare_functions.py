@@ -70,6 +70,14 @@ class CloudflareFunctionTests(unittest.TestCase):
         self.assertIn('authorization.toLowerCase().startsWith("bearer ")', source)
         self.assertIn('return json({ error: "Not found." }, 404)', source)
 
+    def test_visits_increment_the_counter_for_each_page_visit(self):
+        source = Path("functions/api/visits.js").read_text(encoding="utf-8")
+
+        self.assertIn("INSERT INTO site_visit_counter", source)
+        self.assertIn("count = count + 1", source)
+        self.assertNotIn("site_visit_events", source)
+        self.assertNotIn("enforceRateLimit", source)
+
     def test_functions_use_migrations_instead_of_request_time_schema_writes(self):
         for function_file in FUNCTION_FILES:
             with self.subTest(function_file=function_file):
