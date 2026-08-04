@@ -188,7 +188,7 @@ Copy `.env.example` to `.env` for local overrides. Do not commit `.env`.
 - The static export includes Cloudflare `_headers`, HSTS, a restrictive CSP, a real `404.html`, long-lived asset caching for stable assets, and revalidation for JavaScript modules.
 - Cloudflare Functions require the committed D1 migration to be applied before deployment; they no longer run schema or moderation writes during public GET requests.
 - The guestbook is public. It has basic validation and atomic D1-backed rate limiting, not full moderation tooling. Hidden deletion uses a generated high-entropy token and a separate rate-limit bucket.
-- The visit counter deduplicates a long-lived anonymous browser token and rate-limits writes. It is still an approximate exhibition visit count, not an identity-verified unique-person metric.
+- The visit counter increments when the public exhibition page records a visit. It is an approximate page-visit count that can include repeat visits, not an identity-verified unique-person metric.
 
 ## Contributing
 

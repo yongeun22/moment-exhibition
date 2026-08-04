@@ -49,8 +49,8 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('id="audioToggle"', index_html)
         self.assertIn('id="visitorCount" hidden>방문자 -</span>', index_html)
         self.assertIn('visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;', exhibition_js)
-        self.assertIn("loadVisitCount", exhibition_js)
-        self.assertIn("export async function loadVisitCount()", api_js)
+        self.assertNotIn("loadVisitCount", exhibition_js)
+        self.assertNotIn("export async function loadVisitCount()", api_js)
         self.assertIn("font-family: var(--meta-font);", site_css)
         self.assertEqual(site_css.count("  .trace-trigger,\n  .site-visitor-count {"), 2)
         self.assertNotIn(
