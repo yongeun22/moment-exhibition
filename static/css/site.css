@@ -126,6 +126,8 @@ img {
 }
 
 .site-visitor-count {
+  display: inline-flex;
+  align-items: center;
   cursor: default;
   pointer-events: none;
   user-select: none;
@@ -1155,8 +1157,10 @@ img {
   }
 
   .site-nav-card {
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: 0.42rem;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    gap: 0.34rem;
     padding: 0.54rem 0.72rem 0.48rem;
     border-radius: 1.05rem;
   }
@@ -1168,12 +1172,20 @@ img {
 
   .contact-trigger,
   .filter-trigger,
-  .trace-trigger,
-  .site-visitor-count {
+  .trace-trigger {
     min-height: 2.75rem;
     padding: 0.12rem 0.08rem;
-    font-size: 0.69rem;
+    font-size: 0.8rem;
+    font-weight: 500;
     letter-spacing: 0.015em;
+    white-space: nowrap;
+  }
+
+  .site-visitor-count {
+    min-height: 2.75rem;
+    padding: 0.12rem 0.04rem;
+    font-size: 0.68rem;
+    letter-spacing: 0;
     white-space: nowrap;
   }
 
@@ -1194,18 +1206,22 @@ img {
   .site-actions {
     justify-self: end;
     justify-content: flex-end;
+    flex-wrap: nowrap;
     gap: 0.2rem;
+    min-width: max-content;
   }
 
   .site-links {
     justify-self: start;
     justify-content: flex-start;
+    flex-wrap: nowrap;
     gap: 0.2rem;
+    min-width: max-content;
   }
 
   .exhibition-logo {
-    font-size: clamp(1.12rem, 5vw, 1.48rem);
-    letter-spacing: 0.1em;
+    font-size: clamp(1.04rem, 4.5vw, 1.36rem);
+    letter-spacing: 0.08em;
   }
 
   .info-overlay {
@@ -1349,8 +1365,8 @@ img {
 
 @media (max-width: 430px) {
   .site-nav-card {
-    column-gap: 0.32rem;
-    padding-inline: 0.58rem;
+    column-gap: 0.2rem;
+    padding-inline: 0.5rem;
   }
 
   .site-actions,
@@ -1360,19 +1376,23 @@ img {
 
   .contact-trigger,
   .filter-trigger,
-  .trace-trigger,
-  .site-visitor-count {
-    font-size: 0.63rem;
+  .trace-trigger {
+    font-size: 0.78rem;
+    font-weight: 500;
     letter-spacing: 0;
   }
 
+  .site-visitor-count {
+    font-size: 0.66rem;
+  }
+
   .exhibition-logo {
-    font-size: clamp(1rem, 4.9vw, 1.22rem);
-    letter-spacing: 0.08em;
+    font-size: clamp(0.96rem, 4.35vw, 1.12rem);
+    letter-spacing: 0.06em;
   }
 
   .site-menu-separator {
-    font-size: 0.62rem;
+    font-size: 0.66rem;
   }
 
   .exhibition-stream {

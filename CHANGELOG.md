@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Made admin login rate limiting thread-safe for the local threaded server.
 - Preserved the original project prompt under `docs/original-specification.md`.
 - Simplified the responsive header to a single row with the MoMent logo centered between the remaining controls.
+- Prevented mobile header controls from clipping, enlarged navigation labels, and vertically aligned the visitor count.
 - Stabilized randomized photo order for the browser session and converted lightbox information controls to real tabs.
 - Removed the frequently rewritten gallery grid from live-region announcements and added a skip link and concise status updates.
 - Changed the lightbox `정보` and `방명록` tabs from capsule controls to compact rectangular controls.
