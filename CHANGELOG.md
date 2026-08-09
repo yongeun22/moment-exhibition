@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file.
 - Generalized administrator examples from project-specific values to `admin` and `/admin`.
 - Made admin login rate limiting thread-safe for the local threaded server.
 - Preserved the original project prompt under `docs/original-specification.md`.
-- Simplified the responsive header to a single row with the MoMent logo centered between the remaining controls.
+- Arranged the responsive header with MoMent on the left and visit, guestbook, contact, and filter controls on the right.
 - Prevented mobile header controls from clipping, enlarged navigation labels, and vertically aligned the visitor count.
 - Stabilized randomized photo order for the browser session and converted lightbox information controls to real tabs.
 - Removed the frequently rewritten gallery grid from live-region announcements and added a skip link and concise status updates.

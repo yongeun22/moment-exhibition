@@ -135,7 +135,24 @@
 
     <header class="site-topbar" id="siteTopbar">
       <div class="site-nav-card">
-        <div class="site-links">
+        <div class="site-brand">
+          <a class="exhibition-logo" href="/">MoMent</a>
+        </div>
+
+        <div class="site-actions">
+          <span class="site-visitor-count" id="visitorCount" hidden>방문자 -</span>
+          <span class="site-menu-separator site-visitor-separator" aria-hidden="true" hidden>&#x3163;</span>
+          <button
+            class="trace-trigger"
+            id="traceTrigger"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="traceOverlay"
+            aria-expanded="false"
+          >
+            방명록
+          </button>
+          <span class="site-menu-separator" aria-hidden="true">&#x3163;</span>
           <button
             class="contact-trigger"
             id="contactTrigger"
@@ -156,25 +173,6 @@
             aria-expanded="false"
           >
             필터
-          </button>
-        </div>
-
-        <div class="site-brand">
-          <a class="exhibition-logo" href="/">MoMent</a>
-        </div>
-
-        <div class="site-actions">
-          <span class="site-visitor-count" id="visitorCount" hidden>방문자 -</span>
-          <span class="site-menu-separator site-visitor-separator" aria-hidden="true" hidden>&#x3163;</span>
-          <button
-            class="trace-trigger"
-            id="traceTrigger"
-            type="button"
-            aria-haspopup="dialog"
-            aria-controls="traceOverlay"
-            aria-expanded="false"
-          >
-            방명록
           </button>
         </div>
       </div>
