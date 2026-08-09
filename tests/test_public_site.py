@@ -48,6 +48,7 @@ class PublicSiteTests(unittest.TestCase):
         self.assertIn("font-size: 0.78rem;", site_css)
         self.assertNotIn("font-size: 0.63rem;", site_css)
         self.assertIn(".site-visitor-count {\n  display: inline-flex;\n  align-items: center;", site_css)
+        self.assertIn("top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);", site_css)
         self.assertEqual(index_html.count('class="site-menu-separator'), 2)
         self.assertNotIn('id="historyTrigger"', index_html)
         self.assertNotIn('id="historyOverlay"', index_html)
@@ -58,7 +59,7 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn("loadVisitCount", exhibition_js)
         self.assertNotIn("export async function loadVisitCount()", api_js)
         self.assertIn("font-family: var(--meta-font);", site_css)
-        self.assertEqual(site_css.count("  .site-visitor-count {"), 2)
+        self.assertEqual(site_css.count("  .trace-trigger,\n  .site-visitor-count {"), 3)
         self.assertNotIn(
             ".site-visitor-count,\n  .site-visitor-separator {\n    display: none;",
             site_css,
