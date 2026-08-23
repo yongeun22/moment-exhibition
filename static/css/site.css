@@ -223,6 +223,9 @@ img {
 }
 
 .exhibition-logo {
+  position: relative;
+  top: -2pt;
+  left: 3pt;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -473,23 +476,23 @@ img {
   width: 2.15rem;
   height: 2.15rem;
   margin: -0.35rem -0.35rem 0.35rem auto;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.68);
+  border: 0;
+  border-radius: 0.38rem;
+  background: transparent;
   color: #ffffff;
   font: inherit;
   font-size: 1.45rem;
   font-weight: 400;
   line-height: 1;
   cursor: pointer;
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+  transition: background 180ms ease, opacity 180ms ease, transform 180ms ease;
 }
 
 .trace-close:hover,
 .trace-close:focus-visible {
-  border-color: rgba(255, 255, 255, 0.46);
-  background: rgba(0, 0, 0, 0.82);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0.82;
+  transform: scale(1.08);
   outline: none;
 }
 
@@ -626,24 +629,51 @@ img {
 }
 
 .lightbox-tab {
+  position: relative;
   margin: 0;
   min-width: 4.8rem;
   min-height: 2.15rem;
   padding: 0.42rem 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.34rem;
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.52);
   font: inherit;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   cursor: pointer;
+  transition: color 180ms ease, opacity 180ms ease, transform 180ms ease;
+}
+
+.lightbox-tab::after {
+  position: absolute;
+  bottom: 0.18rem;
+  left: 50%;
+  width: 1.15rem;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.35);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .lightbox-tab.is-active {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.42);
+  color: #ffffff;
+}
+
+.lightbox-tab.is-active::after {
+  opacity: 0.92;
+  transform: translateX(-50%) scaleX(1);
+}
+
+.lightbox-tab:hover,
+.lightbox-tab:focus-visible {
+  color: #ffffff;
+  opacity: 0.82;
+  outline: none;
+  transform: translateY(-1px);
 }
 
 .trace-entry {
@@ -877,20 +907,22 @@ img {
   place-items: center;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.74);
+  border: 0;
+  border-radius: 0.38rem;
+  background: transparent;
   color: #ffffff;
   font: inherit;
   font-size: 1.5rem;
   cursor: pointer;
+  transition: background 180ms ease, opacity 180ms ease, transform 180ms ease;
 }
 
 .lightbox-close:hover,
 .lightbox-close:focus-visible {
-  border-color: rgba(255, 255, 255, 0.64);
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0.82;
   outline: none;
+  transform: scale(1.08);
 }
 
 .lightbox-content[data-active-tab="guestbook"] {
@@ -972,7 +1004,7 @@ img {
   max-height: min(40dvh, 24rem);
   overflow: hidden;
   overscroll-behavior: contain;
-  border-top: 1px solid var(--line);
+  border-top: 0;
   padding-top: 0.78rem;
   scrollbar-width: thin;
 }
