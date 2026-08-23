@@ -59,7 +59,7 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('id="backgroundAudio"', index_html)
         self.assertNotIn('id="audioToggle"', index_html)
         self.assertIn("top: -2pt;", site_css)
-        self.assertIn("left: 2pt;", site_css)
+        self.assertIn("left: 3pt;", site_css)
         self.assertIn('id="visitorCount" hidden>방문자 -</span>', index_html)
         self.assertIn('visitorCount.textContent = `방문자 ${count.toLocaleString("ko-KR")}`;', exhibition_js)
         self.assertNotIn("loadVisitCount", exhibition_js)
