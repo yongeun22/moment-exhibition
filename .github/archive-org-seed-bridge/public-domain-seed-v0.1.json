@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.1.0",
+  "approved_at_kst": "2026-08-29",
+  "purpose": "One-time transfer of six explicit derivatives from three public-domain Internet Archive items.",
+  "items": [
+    {
+      "identifier": "kyung-inpubco_thekoreareview_v1_1901",
+      "scope_id": "S04",
+      "rights_status": "PUBLIC_DOMAIN",
+      "rights_basis": "Internet Archive item page displayed Public Domain Mark 1.0 during 2026-08-29 verification.",
+      "files": [
+        {"role": "reading_pdf", "filename": "[KyungIn Pub. Co. The Korea review. v.1_1901_full_view_text.pdf"},
+        {"role": "ocr_text", "filename": "[KyungIn Pub. Co. The Korea review. v.1_1901_full_view_djvu.txt"}
+      ]
+    },
+    {
+      "identifier": "annualreportonreformsandprogressinchosenkorea191011",
+      "scope_id": "S04",
+      "rights_status": "PUBLIC_DOMAIN",
+      "rights_basis": "Internet Archive item page displayed Public Domain Mark 1.0 during 2026-08-29 verification.",
+      "files": [
+        {"role": "reading_pdf", "filename": "Annual Report on Reforms and Progress in Chosen (Korea) 1910-11_text.pdf"},
+        {"role": "ocr_text", "filename": "Annual Report on Reforms and Progress in Chosen (Korea) 1910-11_djvu.txt"}
+      ]
+    },
+    {
+      "identifier": "dli.bengal.10689.2432",
+      "scope_id": "S01",
+      "rights_status": "PUBLIC_DOMAIN",
+      "rights_basis": "Internet Archive metadata displayed dc.rights=In Public Domain during 2026-08-29 verification.",
+      "files": [
+        {"role": "reading_pdf", "filename": "10689.2432_text.pdf"},
+        {"role": "ocr_text", "filename": "10689.2432_djvu.txt"}
+      ]
+    }
+  ]
+}
