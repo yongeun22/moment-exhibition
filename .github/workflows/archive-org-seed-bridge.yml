@@ -1,0 +1,108 @@
+name: Temporary Archive.org Seed Bridge
+
+on:
+  push:
+    branches:
+      - ops/archive-org-seed-bridge-v01
+    paths:
+      - ".github/archive-org-seed-bridge/**"
+      - ".github/workflows/archive-org-seed-bridge.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: temporary-archive-org-seed-bridge
+  cancel-in-progress: false
+
+jobs:
+  transfer-reviewed-seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out isolated branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download explicit public-domain derivatives
+        continue-on-error: true
+        run: |
+          python .github/archive-org-seed-bridge/download_seed.py \
+            --manifest .github/archive-org-seed-bridge/public-domain-seed-v0.1.json \
+            --output raw \
+            --max-file-mb 100
+
+      - name: Show bounded inventory
+        if: always()
+        run: |
+          find raw -maxdepth 2 -type f -printf '%P\t%s bytes\n' | sort || true
+
+      - name: Upload The Korea Review envelope
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ia-korea-review-v1-1901
+          path: raw/kyung-inpubco_thekoreareview_v1_1901/
+          if-no-files-found: warn
+          retention-days: 7
+          compression-level: 0
+
+      - name: Upload Annual Report envelope
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ia-annual-report-chosen-1910-11
+          path: raw/annualreportonreformsandprogressinchosenkorea191011/
+          if-no-files-found: warn
+          retention-days: 7
+          compression-level: 0
+
+      - name: Upload History of Korea envelope
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ia-history-of-korea-vol-1
+          path: raw/dli.bengal.10689.2432/
+          if-no-files-found: warn
+          retention-days: 7
+          compression-level: 0
+
+      - name: Upload aggregate receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ia-bootstrap-receipt
+          path: raw/bootstrap.receipt.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+      - name: Enforce complete verified packet
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("raw/bootstrap.receipt.json")
+          assert path.exists(), "missing bootstrap receipt"
+          receipt = json.loads(path.read_text(encoding="utf-8"))
+          assert receipt["requested"] == 3, receipt
+          assert receipt["succeeded"] == 3, receipt
+          assert receipt["failed"] == 0, receipt
+          for item in receipt["results"]:
+              assert item["restriction_check"] == "PASS", item
+              assert len(item["files"]) == 2, item
+              for file_info in item["files"]:
+                  assert file_info["bytes"] > 0, file_info
+                  assert len(file_info["verified_sha1"]) == 40, file_info
+                  assert len(file_info["sha256"]) == 64, file_info
+                  if file_info.get("source_sha1"):
+                      assert file_info["source_sha1"] == file_info["verified_sha1"], file_info
+          print("verified 3/3 items and 6/6 files")
+          PY
