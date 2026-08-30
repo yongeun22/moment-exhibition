@@ -1,0 +1,19 @@
+name: Avengers C1-U6 Runner Probe
+on:
+  push:
+    branches:
+      - avengers/c1u6-runner-probe-20260830
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Runner probe
+        shell: bash
+        run: |
+          node --version
+          npm --version
+          git --version
+          echo C1U6_PUBLIC_RUNNER_PASS
